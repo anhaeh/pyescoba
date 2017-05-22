@@ -24,3 +24,12 @@ def load_image(filename, transparent=False):
         color = image.get_at((0, 0))
         image.set_colorkey(color, RLEACCEL)
     return image
+
+
+def draw_text(message, posx, posy, color=(255, 255, 255)):
+    font = pygame.font.Font("fonts/DroidSans.ttf", 20)
+    out = pygame.font.Font.render(font, message, 1, color)
+    out_rect = out.get_rect()
+    out_rect.centerx = posx
+    out_rect.centery = posy
+    return out, out_rect
