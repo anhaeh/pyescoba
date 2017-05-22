@@ -13,3 +13,5 @@ y como selecciona las distintas jugadas.
 
 Si quieres simular una jugada entre 2 IA's, solo tiene que instanciar 2 objetos CpuPlayer y ver
 como juegan entre ellas.
+
+![screenshot](https://cloud.githubusercontent.com/assets/26558799/26315317/2938fb84-3ee7-11e7-8d61-1d233c5b76d7.png)
