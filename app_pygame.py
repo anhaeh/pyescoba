@@ -1,14 +1,12 @@
 import pygame
-import sys
 
-from pygame.locals import *
 from entities.cpu_player import CpuPlayer
 from entities.game import Game
-from entities.human_player import HumanPlayer
+from entities.human_pygame_player import HumanPygamePlayer
 from sprites.sprites import load_image, draw_text, CardSprite
 
 WIDTH = 1024
-HEIGHT = 800
+HEIGHT = 720
 
 
 class Application(object):
@@ -18,8 +16,6 @@ class Application(object):
         self.game = Game()
         self.cards_sprites = pygame.sprite.Group()
         self.hand_sprites = pygame.sprite.Group()
-        self.selected_hand_card = None
-        self.selected_table_cards = []
 
     def __generate_sprite(self, card, posx, posy, index, allow_click=True):
         sprite = CardSprite(card, posx, posy, index)
@@ -28,7 +24,7 @@ class Application(object):
             self.cards_sprites.add(sprite)
         return sprite
 
-    def __update_board(self):
+    def update_screen(self):
         background_image = load_image('images/background.jpg')
         self.screen.blit(background_image, (0, 0))
         self.cards_sprites.empty()
@@ -85,9 +81,9 @@ class Application(object):
         pygame.display.set_caption("PYEscoba")
         clock = pygame.time.Clock()
 
-        player1 = HumanPlayer("Player1", self.game)
+        player1 = HumanPygamePlayer("Player1", self.game, self)
         self.game.add_player(player1)
-        player2 = CpuPlayer("CPU", self.game)
+        player2 = CpuPlayer("CPU1", self.game)
         self.game.add_player(player2)
 
         while not self.game.someone_win():
@@ -100,52 +96,15 @@ class Application(object):
                 self.game.give_cards_to_players()
                 for x in range(0, 3):
                     for player in self.game.players:
-                        self.__update_board()
+                        self.update_screen()
                         player.play()
                 if not self.game.deck:
                     break
             self.game.update_points()
+            pygame.time.wait(1000)
             self.game.clear_players()
-        self.__update_board()
+        self.update_screen()
         pygame.time.wait(5000)
-
-    def play_human(self, player1):
-        # TODO IMPLEMENT IN HumanPygamePlayer
-        need_reload = False
-        while True:
-            if need_reload:
-                self.__update_board()
-                need_reload = False
-
-            keys = pygame.key.get_pressed()
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:  # Left Click
-                    for sprite in self.cards_sprites:
-                        if sprite.rect.collidepoint(event.pos):
-                            if sprite == self.selected_hand_card or sprite.index in self.selected_table_cards \
-                                    or (self.selected_hand_card is not None and sprite in self.hand_sprites):
-                                need_reload = True
-                                self.selected_table_cards = []
-                                self.selected_hand_card = None
-                            else:
-                                if sprite in self.hand_sprites:
-                                    self.selected_hand_card = sprite.index
-                                else:
-                                    self.selected_table_cards.append(sprite.index)
-                                text, position = draw_text("SELECTED", sprite.rect.centerx, sprite.rect.y - 10)
-                                self.screen.blit(text, position)
-                                pygame.display.update()
-                                if self.selected_hand_card is not None and self.selected_table_cards != []:
-                                    result = player1.make_a_move(self.selected_hand_card, self.selected_table_cards)
-                                    if result:
-                                        return
-                elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:  # Right Click
-                    for sprite in self.cards_sprites:
-                        if sprite.rect.collidepoint(event.pos) and sprite in self.hand_sprites:
-                            player1.throw_card(sprite.index)
-                            return
 
 
 if __name__ == '__main__':
