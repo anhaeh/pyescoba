@@ -20,11 +20,14 @@ class HumanPygamePlayer(Player):
         """
         need_reload = False
         while True:
+            clock = pygame.time.Clock()
+            time = clock.tick(30)  # framerate
+            keys = pygame.key.get_pressed()
+
             if need_reload:
                 self.app_pygame.update_screen()
                 need_reload = False
 
-            keys = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit(0)

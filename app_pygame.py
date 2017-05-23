@@ -79,7 +79,6 @@ class Application(object):
 
     def start(self):
         pygame.display.set_caption("PYEscoba")
-        clock = pygame.time.Clock()
 
         player1 = HumanPygamePlayer("Player1", self.game, self)
         self.game.add_player(player1)
@@ -87,7 +86,6 @@ class Application(object):
         self.game.add_player(player2)
 
         while not self.game.someone_win():
-            time = clock.tick(30)  # framerate
             self.game.round += 1
             self.game.generate_deck()
             self.game.mix_deck()
