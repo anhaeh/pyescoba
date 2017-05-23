@@ -98,15 +98,10 @@ class Application(object):
             self.game.give_cards_to_table()
             while 1:
                 self.game.give_cards_to_players()
-                self.__update_board()
                 for x in range(0, 3):
                     for player in self.game.players:
-                        if isinstance(player, HumanPlayer):
-                            self.play_human(player1)
-                            self.__update_board()
-                        else:
-                            player.play()
-                            self.__update_board()
+                        self.__update_board()
+                        player.play()
                 if not self.game.deck:
                     break
             self.game.update_points()
@@ -115,6 +110,7 @@ class Application(object):
         pygame.time.wait(5000)
 
     def play_human(self, player1):
+        # TODO IMPLEMENT IN HumanPygamePlayer
         need_reload = False
         while True:
             if need_reload:
