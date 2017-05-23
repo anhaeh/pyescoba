@@ -20,12 +20,12 @@ class Game(object):
         self.players.append(player)
 
     def begin_game(self):
-        while not self.__someone_win():
-            self.__start_round()
+        while not self.someone_win():
+            self.start_round()
         print "FINISH in %d rounds" % self.round
         print "The winner is %s" % self.winner.name
 
-    def __generate_deck(self):
+    def generate_deck(self):
         """
         Generates the deck of 40 cards
         """
@@ -34,7 +34,7 @@ class Game(object):
                 card = Card(i, card_type)
                 self.deck.append(card)
 
-    def __someone_win(self):
+    def someone_win(self):
         """
         Find if there is a winner in the game
         """
@@ -50,17 +50,17 @@ class Game(object):
             return True
         return False
 
-    def __start_round(self):
+    def start_round(self):
         """
         Start a new game. Generate the deck, deal cards and players play their moves
         """
         self.round += 1
         print "--- ROUND", self.round, "---"
-        self.__generate_deck()
-        self.__mix_deck()
-        self.__give_cards_to_table()
+        self.generate_deck()
+        self.mix_deck()
+        self.give_cards_to_table()
         while 1:
-            self.__give_cards_to_players()
+            self.give_cards_to_players()
             for x in range(0, 3):
                 for player in self.players:
                     print "TABLE"
@@ -69,16 +69,16 @@ class Game(object):
                     player.play()
             if not self.deck:
                 break
-        self.__update_points()
-        self.__clear_players()
+        self.update_points()
+        self.clear_players()
 
-    def __mix_deck(self):
+    def mix_deck(self):
         """
         Shuffle the generated deck of cards
         """
         shuffle(self.deck)
 
-    def __give_cards_to_players(self):
+    def give_cards_to_players(self):
         """
         Deal 3 cards to each player
         """
@@ -86,14 +86,14 @@ class Game(object):
             for x in range(0, 3):
                 player.add_card_to_hand(self.deck.pop(0))
 
-    def __give_cards_to_table(self):
+    def give_cards_to_table(self):
         """
         Deal 4 cards to the table at the beginning of the game
         """
         for x in range(0, 4):
             self.table.append(self.deck.pop(0))
 
-    def __update_points(self):
+    def update_points(self):
         """
         Count the cards of each player and update the points of each
         """
@@ -123,7 +123,7 @@ class Game(object):
                 player.points += player.escoba
             print "*** %s %d points ***" % (player.name, player.points)
 
-    def __clear_players(self):
+    def clear_players(self):
         """
         Clear player variables at the end of the round
         """
