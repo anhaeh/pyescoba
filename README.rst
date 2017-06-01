@@ -16,3 +16,14 @@ Screenshot: https://cloud.githubusercontent.com/assets/26558799/26315317/2938fb8
 
 Si quieres simular una jugada entre 2 IA's, solo tienes que agregar 2 CpuPlayer en app.py y ver
 como juegan entre ellas!
+
+Ejecución
+---------
+1. Por terminal:
+
+    $python app.py
+
+2. Utilizando PYGAME Engine. Instalar las dependencias de requirements.txt y ejecutar app_pygame.py:
+
+    $pip install -r requirements.txt
+    $python app_pygame.py
