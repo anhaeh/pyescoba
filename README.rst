@@ -23,7 +23,7 @@ Ejecución
 
     $python app.py
 
-2. Utilizando PYGAME Engine. Instalar las dependencias de requirements.txt y ejecutar app_pygame.py:
+2. PYGAME Engine. Instalar las dependencias en requirements.txt y ejecutar app_pygame.py:
 
     $pip install -r requirements.txt
     $python app_pygame.py
