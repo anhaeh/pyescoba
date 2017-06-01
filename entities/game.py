@@ -3,7 +3,6 @@ from random import shuffle
 from entities.card import Card
 from entities.cpu_player import CpuPlayer
 from entities.human_player import HumanPlayer
-from entities.human_pygame_player import HumanPygamePlayer
 
 
 class Game(object):
@@ -25,6 +24,7 @@ class Game(object):
         self.__add_player(player)
 
     def add_human_pygame_player(self, name, app_pygame):
+        from entities.human_pygame_player import HumanPygamePlayer
         player = HumanPygamePlayer(name, self, app_pygame)
         self.__add_player(player)
 
