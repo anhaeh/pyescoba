@@ -1,8 +1,5 @@
 import pygame
-
-from entities.cpu_player import CpuPlayer
 from entities.game import Game
-from entities.human_pygame_player import HumanPygamePlayer
 from sprites.sprites import load_image, draw_text, CardSprite
 
 WIDTH = 1024
@@ -47,14 +44,14 @@ class Application(object):
         for card in self.game.table:
             if self.game.table.__len__() <= 5:
                 posx = 250+(index*100)
-                posy = (HEIGHT/2)-75
+                posy = (HEIGHT/2) - 75
             else:
                 if index < 5:
                     posx = 250 + (index * 100)
                     posy = (HEIGHT / 2) - 150
                 else:
                     posx = 250 + ((index-5) * 100)
-                    posy = (HEIGHT / 2)
+                    posy = (HEIGHT / 2) + 15
 
             self.__generate_sprite(card, posx, posy, index)
             index += 1
@@ -80,10 +77,9 @@ class Application(object):
     def start(self):
         pygame.display.set_caption("PYEscoba")
 
-        player1 = HumanPygamePlayer("Player1", self.game, self)
-        self.game.add_player(player1)
-        player2 = CpuPlayer("CPU1", self.game)
-        self.game.add_player(player2)
+        self.game.add_human_pygame_player("Player1", self)
+        # self.game.add_cpu_player("CPU2")
+        self.game.add_cpu_player("CPU1")
 
         while not self.game.someone_win():
             self.game.round += 1
@@ -96,6 +92,7 @@ class Application(object):
                     for player in self.game.players:
                         self.update_screen()
                         player.play()
+                        self.update_screen()
                 if not self.game.deck:
                     break
             self.game.update_points()

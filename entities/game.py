@@ -1,6 +1,9 @@
 # coding=utf-8
 from random import shuffle
 from entities.card import Card
+from entities.cpu_player import CpuPlayer
+from entities.human_player import HumanPlayer
+from entities.human_pygame_player import HumanPygamePlayer
 
 
 class Game(object):
@@ -13,7 +16,19 @@ class Game(object):
         self.last_play = None
         self.winner = None
 
-    def add_player(self, player):
+    def add_human_player(self, name):
+        player = HumanPlayer(name, self)
+        self.__add_player(player)
+
+    def add_cpu_player(self, name):
+        player = CpuPlayer(name, self)
+        self.__add_player(player)
+
+    def add_human_pygame_player(self, name, app_pygame):
+        player = HumanPygamePlayer(name, self, app_pygame)
+        self.__add_player(player)
+
+    def __add_player(self, player):
         """
         Add a player to the game
         """
