@@ -16,7 +16,7 @@ Si quieres simular una jugada entre 2 IA's, solo tienes que agregar 2 CpuPlayer
 
 Ejecución
 ---------
-1. Terminal:
+1. Consola:
 
     $python app.py
 

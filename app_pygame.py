@@ -33,7 +33,7 @@ class Application(object):
         self.hand_sprites.empty()
         self.table_sprites.empty()
 
-        # Player 1 Cards
+        # Players Cards
         number_player = 0
         for player in self.game.players:
             number_player += 1
@@ -41,11 +41,10 @@ class Application(object):
                 height_card = HEIGHT - 170
                 hand_allow = True
                 hand_show = True
-            elif number_player == 2:
+            else:
                 height_card = 25
                 hand_allow = False
                 hand_show = False
-
             index = 0
             # HAND CARDS
             for card in player.hand:
@@ -90,7 +89,7 @@ class Application(object):
 
         pygame.display.flip()
 
-    def show_end_round(self):
+    def __show_end_round(self):
         self.screen.blit(self.background_image, (0, 0))
         text, position = draw_text("Finished Round", (WIDTH / 2), (HEIGHT / 2))
         self.screen.blit(text, position)
@@ -147,7 +146,7 @@ class Application(object):
                 if not self.game.deck:
                     break
             self.game.update_points()
-            self.show_end_round()
+            self.__show_end_round()
             self.game.clear_players()
         self.__show_winner()
 
