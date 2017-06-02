@@ -40,21 +40,22 @@ class CpuPlayer(Player):
         Evaluate all possible games to run
         """
         moves = []
-        table_cards = sorted(self.game.table, key=lambda x: x.number)
-        for hand_card in self.hand:
-            for x in range(0, len(table_cards)):
-                total = hand_card.number
-                actual_cards = [hand_card]
-                for table_card in table_cards:
-                    if total + table_card.number <= 15:
-                        total += table_card.number
-                        actual_cards.append(table_card)
-                        if total == 15:
-                            actual_cards.sort(key=lambda x: x.number)
-                            if actual_cards not in moves:
-                                moves.append(actual_cards)
-                                break
-                table_cards.append(table_cards.pop(0))
+        for reverse in [True, False]:
+            table_cards = sorted(self.game.table, key=lambda x: x.number, reverse=reverse)
+            for hand_card in self.hand:
+                for x in range(0, len(table_cards)):
+                    total = hand_card.number
+                    actual_cards = [hand_card]
+                    for table_card in table_cards:
+                        if total + table_card.number <= 15:
+                            total += table_card.number
+                            actual_cards.append(table_card)
+                            if total == 15:
+                                actual_cards.sort(key=lambda x: x.number)
+                                if actual_cards not in moves:
+                                    moves.append(actual_cards)
+                                    break
+                    table_cards.append(table_cards.pop(0))
         return moves
 
     def _get_best_move(self, moves):
