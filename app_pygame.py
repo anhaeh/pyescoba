@@ -89,7 +89,7 @@ class Application(object):
     def show_end_round(self):
         background_image = load_image('images/background.jpg')
         self.screen.blit(background_image, (0, 0))
-        text, position = draw_text("Finish Round %s" % self.game.round, (WIDTH / 2), (HEIGHT / 2))
+        text, position = draw_text("Finished Round", (WIDTH / 2), (HEIGHT / 2))
         self.screen.blit(text, position)
         pygame.display.flip()
         pygame.time.wait(2000)
