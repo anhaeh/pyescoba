@@ -1,4 +1,7 @@
 import pygame
+from pygame.locals import *
+import sys
+
 from entities.game import Game
 from sprites.sprites import load_image, draw_text, CardSprite
 
@@ -9,8 +12,8 @@ HEIGHT = 720
 class Application(object):
 
     def __init__(self):
+        self.game = None
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.game = Game()
         self.cards_sprites = pygame.sprite.Group()
         self.hand_sprites = pygame.sprite.Group()
         self.table_sprites = pygame.sprite.Group()
@@ -96,7 +99,7 @@ class Application(object):
 
         for player in self.game.players:
             self.screen.blit(background_image, (0, 0))
-            text, position = draw_text("%s scored %s points" % (player.name, player.round_points),
+            text, position = draw_text("%s scored %s points in this round" % (player.name, player.round_points),
                                        (WIDTH / 2), (HEIGHT / 2))
             self.screen.blit(text, position)
             pygame.display.flip()
@@ -108,11 +111,24 @@ class Application(object):
         text, position = draw_text("THE WINNER IS %s WITH %s POINTS" %
                                    (self.game.winner.name, self.game.winner.points), (WIDTH/2), HEIGHT / 2)
         self.screen.blit(text, position)
+        text, position = draw_text("Press SPACE to restart game", (WIDTH/2), HEIGHT / 2 + 30)
+        self.screen.blit(text, position)
         pygame.display.flip()
-        pygame.time.wait(4000)
+        while True:
+            clock = pygame.time.Clock()
+            clock.tick(30)
+            keys = pygame.key.get_pressed()
+
+            if keys[K_SPACE]:
+                self.start()
+
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit(0)
 
     def start(self):
         pygame.display.set_caption("PYEscoba")
+        self.game = Game()
         self.game.add_human_pygame_player("Player1", self)
         self.game.add_cpu_pygame_player("CPU1", self)
         # self.game.add_cpu_pygame_player("CPU2", self)
@@ -135,7 +151,6 @@ class Application(object):
             self.show_end_round()
             self.game.clear_players()
         self.__show_winner()
-        return
 
 if __name__ == '__main__':
     pygame.init()
