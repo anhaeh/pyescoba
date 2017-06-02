@@ -27,14 +27,15 @@ class CpuPlayer(Player):
         """
         Cpu game implementation
         """
-        moves = self.__get_possible_moves()
+        moves = self._get_possible_moves()
         if not moves:
-            self.__search_a_card_to_throw()
+            throw_index_card = self._search_a_card_to_throw()
+            self.throw_card(throw_index_card)
         else:
-            player_card, table_cards = self.__get_best_move(moves)
+            player_card, table_cards = self._get_best_move(moves)
             self.make_a_move(player_card, table_cards)
 
-    def __get_possible_moves(self):
+    def _get_possible_moves(self):
         """
         Evaluate all possible games to run
         """
@@ -56,7 +57,7 @@ class CpuPlayer(Player):
                 table_cards.append(table_cards.pop(0))
         return moves
 
-    def __get_best_move(self, moves):
+    def _get_best_move(self, moves):
         """
         Select the best play to play using the value of the cards, and the remaining cards on the table
         """
@@ -66,7 +67,7 @@ class CpuPlayer(Player):
 
         for move in moves:
             rest_cards_on_table = filter(lambda x: x not in move, self.game.table)
-            points_of_move = self.__calculate_points_of_rest(rest_cards_on_table)
+            points_of_move = self._calculate_points_of_rest(rest_cards_on_table)
 
             # IF ESCOBA
             if rest_cards_on_table.__len__() == 0:
@@ -102,7 +103,7 @@ class CpuPlayer(Player):
         return hand_card, table_cards
 
     @staticmethod
-    def __calculate_points_of_rest(rest_cards_on_table):
+    def _calculate_points_of_rest(rest_cards_on_table):
         """
         Calculates the value of the play by evaluating the rest to be left on the table
         """
@@ -115,7 +116,7 @@ class CpuPlayer(Player):
             points_of_move = 0
         return points_of_move
 
-    def __search_a_card_to_throw(self):
+    def _search_a_card_to_throw(self):
         """
         Find the best card to throw
         """
@@ -124,7 +125,7 @@ class CpuPlayer(Player):
         best_points = -100
         actual_card = 0
         for card in self.hand:
-            points_of_move = self.__calculate_points_of_rest(table_cards + [card])
+            points_of_move = self._calculate_points_of_rest(table_cards + [card])
             key = "%d%s" % (card.number, card.card_type)
             if self.card_values.get(key):
                 points_of_move -= self.card_values[key]
@@ -134,4 +135,4 @@ class CpuPlayer(Player):
                 best_index_card = actual_card
             actual_card += 1
         print "CPU throw:", self.hand[best_index_card]
-        self.throw_card(best_index_card)
+        return best_index_card

@@ -28,6 +28,11 @@ class Game(object):
         player = HumanPygamePlayer(name, self, app_pygame)
         self.__add_player(player)
 
+    def add_cpu_pygame_player(self, name, app_pygame):
+        from entities.cpu_pygame_player import CpuPygamePlayer
+        player = CpuPygamePlayer(name, self, app_pygame)
+        self.__add_player(player)
+
     def __add_player(self, player):
         """
         Add a player to the game
@@ -38,7 +43,7 @@ class Game(object):
         while not self.someone_win():
             self.start_round()
         print "FINISH in %d rounds" % self.round
-        print "The winner is %s" % self.winner.name
+        print "The winner is %s with %s points" % (self.winner.name, self.winner.points)
 
     def generate_deck(self):
         """
@@ -127,16 +132,17 @@ class Game(object):
                 if card.card_type == "ORO":
                     count_gold += 1
             if have_gold_seven:
-                player.points += 1
+                player.round_points += 1
             if count_seven > 2:
-                player.points += 1
+                player.round_points += 1
             if count_gold > 5:
-                player.points += 1
+                player.round_points += 1
             if player.cards.__len__() > 20:
-                player.points += 1
-            if player.escoba > 0:
-                player.points += player.escoba
-            print "*** %s %d points ***" % (player.name, player.points)
+                player.round_points += 1
+
+            player.round_points += player.escobas.__len__()
+            print "* %s scored %d points" % (player.name, player.round_points)
+            print "** %s has %d total points" % (player.name, player.points + player.round_points)
 
     def clear_players(self):
         """

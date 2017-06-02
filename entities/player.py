@@ -8,8 +8,9 @@ class Player(object):
         self.game = game
         self.hand = []
         self.cards = []
-        self.escoba = 0
+        self.escobas = []
         self.points = 0
+        self.round_points = 0
 
     def __repr__(self):
         return self.name
@@ -20,7 +21,9 @@ class Player(object):
         """
         self.hand = []
         self.cards = []
-        self.escoba = 0
+        self.escobas = []
+        self.points += self.round_points
+        self.round_points = 0
 
     def throw_card(self, id_card):
         """
@@ -55,11 +58,12 @@ class Player(object):
             for index in table_cards:
                 self.cards.append(self.game.table.pop(int(index) - id_adjust))
                 id_adjust += 1
-            self.cards.append(self.hand.pop(player_card))
             # if is broom
             if not self.game.table:
                 print "ESCOBA!"
-                self.escoba += 1
+                self.escobas.append(self.hand.pop(player_card))
+            else:
+                self.cards.append(self.hand.pop(player_card))
             self.game.last_play = self
             return True
         return False

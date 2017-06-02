@@ -3,12 +3,15 @@ from pygame.locals import *
 
 
 class CardSprite(pygame.sprite.Sprite):
-    def __init__(self, card, posx, posy, index):
+    def __init__(self, card, posx, posy, index, show):
         image_number = card.number
         if card.number > 7:
             image_number = card.number+2
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_image("images/%s/%d.jpg" % (card.card_type, image_number))
+        if show:
+            self.image = load_image("images/%s/%d.jpg" % (card.card_type, image_number))
+        else:
+            self.image = load_image("images/back.jpg")
         self.rect = self.image.get_rect()
         self.rect.x = posx
         self.rect.y = posy

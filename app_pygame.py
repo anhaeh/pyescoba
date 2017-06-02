@@ -13,9 +13,10 @@ class Application(object):
         self.game = Game()
         self.cards_sprites = pygame.sprite.Group()
         self.hand_sprites = pygame.sprite.Group()
+        self.table_sprites = pygame.sprite.Group()
 
-    def __generate_sprite(self, card, posx, posy, index, allow_click=True):
-        sprite = CardSprite(card, posx, posy, index)
+    def generate_sprite(self, card, posx, posy, index, allow_click=True, show=True):
+        sprite = CardSprite(card, posx, posy, index, show)
         self.screen.blit(sprite.image, sprite.rect)
         if allow_click:
             self.cards_sprites.add(sprite)
@@ -24,26 +25,40 @@ class Application(object):
     def update_screen(self):
         background_image = load_image('images/background.jpg')
         self.screen.blit(background_image, (0, 0))
+
         self.cards_sprites.empty()
         self.hand_sprites.empty()
+        self.table_sprites.empty()
+
         # Player 1 Cards
         index = 0
         for card in self.game.players[0].hand:
-            sprite = self.__generate_sprite(card, 300+(index*100), HEIGHT-175, index)
+            sprite = self.generate_sprite(card, 350 + (index * 100), HEIGHT - 170, index)
             self.hand_sprites.add(sprite)
             index += 1
+
+        if self.game.players[0].cards:
+            self.generate_sprite(self.game.players[0].cards[0], 50, HEIGHT - 170, index, False, False)
+        if self.game.players[0].escobas:
+            self.generate_sprite(self.game.players[0].escobas[-1], 150, HEIGHT - 170, index, False)
 
         # Player 2 Cards
         index = 0
         for card in self.game.players[1].hand:
-            self.__generate_sprite(card, 300+(index*100), 25, index, False)
+            sprite = self.generate_sprite(card, 350 + (index * 100), 25, index, False, False)
+            self.hand_sprites.add(sprite)
             index += 1
+
+        if self.game.players[1].cards:
+            self.generate_sprite(self.game.players[1].cards[0], 50, 25, index, False, False)
+        if self.game.players[1].escobas:
+            self.generate_sprite(self.game.players[1].escobas[-1], 150, 25, index, False)
 
         # Table Cards
         index = 0
         for card in self.game.table:
             if self.game.table.__len__() <= 5:
-                posx = 250+(index*100)
+                posx = 250 + (index * 100)
                 posy = (HEIGHT/2) - 75
             else:
                 if index < 5:
@@ -53,33 +68,54 @@ class Application(object):
                     posx = 250 + ((index-5) * 100)
                     posy = (HEIGHT / 2) + 15
 
-            self.__generate_sprite(card, posx, posy, index)
+            sprite = self.generate_sprite(card, posx, posy, index)
+            self.table_sprites.add(sprite)
             index += 1
 
         # MESSAGES
         text, position = draw_text("ROUND %d" % self.game.round, WIDTH-100, HEIGHT/2)
         self.screen.blit(text, position)
-        text, position = draw_text("Points: %d" % self.game.players[1].points, WIDTH-100, 50)
+        text, position = draw_text("%s" % self.game.players[1].name.upper(), WIDTH-100, 50)
         self.screen.blit(text, position)
-        text, position = draw_text("Escobas: %d" % self.game.players[1].escoba, WIDTH-100, 100)
+        text, position = draw_text("Points: %d" % self.game.players[1].points, WIDTH-100, 80)
         self.screen.blit(text, position)
-        text, position = draw_text("Points: %d" % self.game.players[0].points, WIDTH-100, HEIGHT-100)
+        text, position = draw_text("%s" % self.game.players[0].name.upper(), WIDTH-100, HEIGHT-100)
         self.screen.blit(text, position)
-        text, position = draw_text("Escobas: %d" % self.game.players[0].escoba, WIDTH-100, HEIGHT-50)
+        text, position = draw_text("Points: %d" % self.game.players[0].points, WIDTH-100, HEIGHT-70)
         self.screen.blit(text, position)
-
-        if self.game.winner:
-            text, position = draw_text("THE WINNER IS %s" % self.game.winner.name, (WIDTH/2) - 100, HEIGHT / 2)
-            self.screen.blit(text, position)
 
         pygame.display.flip()
 
+    def show_end_round(self):
+        background_image = load_image('images/background.jpg')
+        self.screen.blit(background_image, (0, 0))
+        text, position = draw_text("Finish Round %s" % self.game.round, (WIDTH / 2), (HEIGHT / 2))
+        self.screen.blit(text, position)
+        pygame.display.flip()
+        pygame.time.wait(2000)
+
+        for player in self.game.players:
+            self.screen.blit(background_image, (0, 0))
+            text, position = draw_text("%s scored %s points" % (player.name, player.round_points),
+                                       (WIDTH / 2), (HEIGHT / 2))
+            self.screen.blit(text, position)
+            pygame.display.flip()
+            pygame.time.wait(2000)
+
+    def __show_winner(self):
+        background_image = load_image('images/background.jpg')
+        self.screen.blit(background_image, (0, 0))
+        text, position = draw_text("THE WINNER IS %s WITH %s POINTS" %
+                                   (self.game.winner.name, self.game.winner.points), (WIDTH/2), HEIGHT / 2)
+        self.screen.blit(text, position)
+        pygame.display.flip()
+        pygame.time.wait(4000)
+
     def start(self):
         pygame.display.set_caption("PYEscoba")
-
         self.game.add_human_pygame_player("Player1", self)
-        # self.game.add_cpu_player("CPU2")
-        self.game.add_cpu_player("CPU1")
+        self.game.add_cpu_pygame_player("CPU1", self)
+        # self.game.add_cpu_pygame_player("CPU2", self)
 
         while not self.game.someone_win():
             self.game.round += 1
@@ -96,11 +132,10 @@ class Application(object):
                 if not self.game.deck:
                     break
             self.game.update_points()
-            pygame.time.wait(1000)
+            self.show_end_round()
             self.game.clear_players()
-        self.update_screen()
-        pygame.time.wait(5000)
-
+        self.__show_winner()
+        return
 
 if __name__ == '__main__':
     pygame.init()
