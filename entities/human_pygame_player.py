@@ -21,7 +21,7 @@ class HumanPygamePlayer(Player):
         need_reload = False
         while True:
             clock = pygame.time.Clock()
-            time = clock.tick(30)  # framerate
+            time = clock.tick(30)
             keys = pygame.key.get_pressed()
 
             if need_reload:

@@ -3,13 +3,17 @@ from pygame.locals import *
 
 
 class CardSprite(pygame.sprite.Sprite):
-    def __init__(self, card, posx, posy, index, show):
+    def __init__(self, card, posx, posy, index, show, is_escoba):
         image_number = card.number
         if card.number > 7:
             image_number = card.number+2
         pygame.sprite.Sprite.__init__(self)
         if show:
             self.image = load_image("images/%s/%d.jpg" % (card.card_type, image_number))
+            if is_escoba:
+                self.image = pygame.transform.rotate(self.image, 90)
+                posx = posx - 50
+                posy = posy + 20
         else:
             self.image = load_image("images/back.jpg")
         self.rect = self.image.get_rect()

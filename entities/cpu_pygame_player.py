@@ -21,11 +21,9 @@ class CpuPygamePlayer(CpuPlayer):
             throw_index_card = self._search_a_card_to_throw()
             for card_sprite in self.app_pygame.hand_sprites:
                 if card_sprite.card == self.hand[throw_index_card]:
-                    sprite = self.app_pygame.generate_sprite(card_sprite.card, 350 + (throw_index_card * 100), 25, throw_index_card, False)
-                    text, position = draw_text("THROW", sprite.rect.centerx, sprite.rect.y - 10)
-                    self.app_pygame.screen.blit(text, position)
-                    pygame.display.update()
-                    pygame.time.wait(self.time_between_moves)
+                    sprite = self.app_pygame.draw_card(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
+                                                       throw_index_card, False)
+                    self.__display_selected_card(sprite, "THROW")
                     self.throw_card(throw_index_card)
                     break
         else:
@@ -33,12 +31,9 @@ class CpuPygamePlayer(CpuPlayer):
             # SHOW HAND CARD TO USE
             for card_sprite in self.app_pygame.hand_sprites:
                 if card_sprite.card == self.hand[player_card]:
-                    sprite = self.app_pygame.generate_sprite(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
-                                                             player_card, False)
-                    text, position = draw_text("USE", sprite.rect.centerx, sprite.rect.y - 10)
-                    self.app_pygame.screen.blit(text, position)
-                    pygame.display.update()
-                    pygame.time.wait(self.time_between_moves)
+                    sprite = self.app_pygame.draw_card(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
+                                                       player_card, False)
+                    self.__display_selected_card(sprite, "USE")
                     break
             # SHOW TABLE CARDS TO PICK
             cards_to_pick = []
@@ -47,9 +42,12 @@ class CpuPygamePlayer(CpuPlayer):
 
             for card_sprite in self.app_pygame.table_sprites:
                 if card_sprite.card in cards_to_pick:
-                    text, position = draw_text("SELECTED", card_sprite.rect.centerx, card_sprite.rect.y - 10)
-                    self.app_pygame.screen.blit(text, position)
-                    pygame.display.update()
-                    pygame.time.wait(self.time_between_moves)
+                    self.__display_selected_card(card_sprite, "SELECTED")
 
             self.make_a_move(player_card, table_cards)
+
+    def __display_selected_card(self, sprite, text):
+        text, position = draw_text(text, sprite.rect.centerx, sprite.rect.y - 10)
+        self.app_pygame.screen.blit(text, position)
+        pygame.display.update()
+        pygame.time.wait(self.time_between_moves)
