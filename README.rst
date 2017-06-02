@@ -12,7 +12,7 @@ a todas las cartas disponibles.
 Screenshot: https://cloud.githubusercontent.com/assets/26558799/26708890/ff75854c-4724-11e7-9149-19a24f1ea7b3.png
 
 Si quieres simular una jugada entre 2 IA's, solo tienes que agregar 2 CpuPlayer
-(en app.py o en app_pygame.py) y ver como juegan entre ellas!
+(en app.py o app_pygame.py) y ver como juegan entre ellas!
 
 Ejecución
 ---------
