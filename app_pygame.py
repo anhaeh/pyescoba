@@ -1,9 +1,8 @@
-import pygame
-from pygame.locals import *
 import sys
-
+import pygame
+from pygame.locals import K_SPACE, QUIT
 from entities.game import Game
-from sprites.sprites import load_image, draw_text, CardSprite
+from sprites.sprites import load_image, draw_text, CardSprite, EscobaSprite
 
 WIDTH = 1024
 HEIGHT = 720
@@ -19,14 +18,57 @@ class Application(object):
         self.hand_sprites = pygame.sprite.Group()
         self.table_sprites = pygame.sprite.Group()
 
-    def draw_card(self, card, posx, posy, index, allow_click=True, show=True, is_escoba=False):
-        sprite = CardSprite(card, posx, posy, index, show, is_escoba)
+    def __draw_card(self, sprite, allow_click=True):
+        """
+        generate a specific card with his properties and position
+        :rtype: CardSprite
+        """
         self.screen.blit(sprite.image, sprite.rect)
         if allow_click:
             self.cards_sprites.add(sprite)
         return sprite
 
+    def draw_table_card(self, card, posx, posy, index):
+        """
+        :param card: card Object
+        :param posx: position X
+        :param posy: position Y
+        :param index: card index
+        :return:
+        """
+        sprite = CardSprite(card, posx, posy, index, True)
+        sprite = self.__draw_card(sprite)
+        self.table_sprites.add(sprite)
+
+    def draw_player_card(self, card, posx, posy, index, show_card):
+        """
+        :param card: card Object
+        :param posx: position X
+        :param posy: position Y
+        :param index: card index
+        :param show_card: show value of card
+        :rtype: CardSprite
+        """
+        sprite = CardSprite(card, posx, posy, index, show_card)
+        sprite = self.__draw_card(sprite, show_card)
+        self.hand_sprites.add(sprite)
+        return sprite
+
+    def draw_escoba_card(self, card, posx, posy, index):
+        """
+        :param card: card Object
+        :param posx: position X
+        :param posy: position Y
+        :param index: card index
+        :return:
+        """
+        sprite = EscobaSprite(card, posx, posy, index)
+        self.__draw_card(sprite, False)
+
     def update_screen(self):
+        """
+        render cards and points for each player in the screen
+        """
         self.screen.blit(self.background_image, (0, 0))
 
         self.cards_sprites.empty()
@@ -39,23 +81,20 @@ class Application(object):
             number_player += 1
             if number_player == 1:
                 height_card = HEIGHT - 170
-                hand_allow = True
-                hand_show = True
+                show_card = True
             else:
                 height_card = 25
-                hand_allow = False
-                hand_show = False
+                show_card = False
             index = 0
             # HAND CARDS
             for card in player.hand:
-                sprite = self.draw_card(card, 350 + (index * 100), height_card, index, hand_allow, hand_show)
-                self.hand_sprites.add(sprite)
+                self.draw_player_card(card, 350 + (index * 100), height_card, index, show_card)
                 index += 1
             # PICKED CARDS
             if player.escobas:
-                self.draw_card(player.escobas[-1], 150, height_card, index, False, True, True)
+                self.draw_escoba_card(player.escobas[-1], 150, height_card, index)
             if player.cards:
-                self.draw_card(player.cards[0], 50, height_card, index, False, False)
+                self.draw_player_card(player.cards[0], 50, height_card, index, False)
 
         # Table Cards
         index = 0
@@ -71,8 +110,7 @@ class Application(object):
                     posx = 250 + ((index-5) * 100)
                     posy = (HEIGHT / 2) + 15
 
-            sprite = self.draw_card(card, posx, posy, index)
-            self.table_sprites.add(sprite)
+            self.draw_table_card(card, posx, posy, index)
             index += 1
 
         # MESSAGES
@@ -90,6 +128,9 @@ class Application(object):
         pygame.display.flip()
 
     def __show_end_round(self):
+        """
+        show points for each player
+        """
         self.screen.blit(self.background_image, (0, 0))
         text, position = draw_text("Finished Round", (WIDTH / 2), (HEIGHT / 2))
         self.screen.blit(text, position)
@@ -105,6 +146,9 @@ class Application(object):
             pygame.time.wait(2000)
 
     def __show_winner(self):
+        """
+        shows winner and his points on the screen
+        """
         self.screen.blit(self.background_image, (0, 0))
         text, position = draw_text("THE WINNER IS %s WITH %s POINTS" %
                                    (self.game.winner.name, self.game.winner.points), (WIDTH/2), HEIGHT / 2)
@@ -125,6 +169,9 @@ class Application(object):
                     sys.exit(0)
 
     def start(self):
+        """
+        start the game
+        """
         pygame.display.set_caption("PYEscoba")
         self.game = Game()
         self.game.add_human_pygame_player("Player1", self)
@@ -150,7 +197,8 @@ class Application(object):
             self.game.clear_players()
         self.__show_winner()
 
+
 if __name__ == '__main__':
     pygame.init()
-    app = Application()
-    app.start()
+    APP = Application()
+    APP.start()

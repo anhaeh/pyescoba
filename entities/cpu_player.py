@@ -5,7 +5,7 @@ from player import Player
 class CpuPlayer(Player):
 
     def __init__(self, name, game):
-        Player.__init__(self, name, game)
+        super(CpuPlayer, self).__init__(name, game)
         # List of values ​​associated with each card for decision making
         self.card_values = {
             "1ORO": 1,

@@ -9,7 +9,7 @@ from sprites.sprites import draw_text
 class HumanPygamePlayer(Player):
 
     def __init__(self, name, game, app_pygame):
-        Player.__init__(self, name, game)
+        super(HumanPygamePlayer, self).__init__(name, game)
         self.app_pygame = app_pygame
 
     def play(self):

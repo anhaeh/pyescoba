@@ -5,7 +5,7 @@ from player import Player
 class HumanPlayer(Player):
 
     def __init__(self, name, game):
-        Player.__init__(self, name, game)
+        super(HumanPlayer, self).__init__(name, game)
 
     def play(self):
         """

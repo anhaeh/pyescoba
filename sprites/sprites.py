@@ -1,26 +1,41 @@
 import pygame
-from pygame.locals import *
+from pygame.locals import RLEACCEL
 
 
 class CardSprite(pygame.sprite.Sprite):
-    def __init__(self, card, posx, posy, index, show, is_escoba):
-        image_number = card.number
+    def __init__(self, card, posx, posy, index, show_card):
+        self.image_number = card.number
         if card.number > 7:
-            image_number = card.number+2
+            self.image_number = card.number + 2
         pygame.sprite.Sprite.__init__(self)
-        if show:
-            self.image = load_image("images/%s/%d.jpg" % (card.card_type, image_number))
-            if is_escoba:
-                self.image = pygame.transform.rotate(self.image, 90)
-                posx = posx - 50
-                posy = posy + 20
+
+        self.rect = None
+        self.image = None
+        self.card = card
+        self.index = index
+        self.set_image(posx, posy, show_card)
+
+    def set_image(self, posx, posy, show_card):
+        if show_card:
+            image = load_image("images/%s/%d.jpg" % (self.card.card_type, self.image_number))
         else:
-            self.image = load_image("images/back.jpg")
+            image = load_image("images/back.jpg")
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = posx
         self.rect.y = posy
-        self.card = card
-        self.index = index
+
+
+class EscobaSprite(CardSprite):
+    def __init__(self, card, posx, posy, index):
+        super(EscobaSprite, self).__init__(card, posx, posy, index, True)
+
+    def set_image(self, posx, posy, show=True):
+        self.image = load_image("images/%s/%d.jpg" % (self.card.card_type, self.image_number))
+        self.image = pygame.transform.rotate(self.image, 90)
+        self.rect = self.image.get_rect()
+        self.rect.x = posx - 50
+        self.rect.y = posy + 20
 
 
 def load_image(filename, transparent=False):

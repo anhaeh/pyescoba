@@ -8,7 +8,7 @@ from sprites.sprites import draw_text
 class CpuPygamePlayer(CpuPlayer):
 
     def __init__(self, name, game, app_pygame):
-        CpuPlayer.__init__(self, name, game)
+        super(CpuPygamePlayer, self).__init__(name, game)
         self.app_pygame = app_pygame
         self.time_between_moves = 1000
 
@@ -21,8 +21,8 @@ class CpuPygamePlayer(CpuPlayer):
             throw_index_card = self._search_a_card_to_throw()
             for card_sprite in self.app_pygame.hand_sprites:
                 if card_sprite.card == self.hand[throw_index_card]:
-                    sprite = self.app_pygame.draw_card(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
-                                                       throw_index_card, False)
+                    sprite = self.app_pygame.draw_player_card(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
+                                                              throw_index_card, True)
                     self.__display_selected_card(sprite, "THROW")
                     self.throw_card(throw_index_card)
                     break
@@ -31,8 +31,8 @@ class CpuPygamePlayer(CpuPlayer):
             # SHOW HAND CARD TO USE
             for card_sprite in self.app_pygame.hand_sprites:
                 if card_sprite.card == self.hand[player_card]:
-                    sprite = self.app_pygame.draw_card(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
-                                                       player_card, False)
+                    sprite = self.app_pygame.draw_player_card(card_sprite.card, card_sprite.rect.x, card_sprite.rect.y,
+                                                              player_card, True)
                     self.__display_selected_card(sprite, "USE")
                     break
             # SHOW TABLE CARDS TO PICK
