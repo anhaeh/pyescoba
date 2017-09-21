@@ -137,10 +137,10 @@ class Game(object):
                 player.round_points += 1
             if count_gold > 5:
                 player.round_points += 1
-            if player.cards.__len__() > 20:
+            if len(player.cards) > 20:
                 player.round_points += 1
 
-            player.round_points += player.escobas.__len__()
+            player.round_points += len(player.escobas)
             print "* %s scored %d points" % (player.name, player.round_points)
             print "** %s has %d total points" % (player.name, player.points + player.round_points)
 

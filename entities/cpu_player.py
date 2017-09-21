@@ -71,7 +71,7 @@ class CpuPlayer(Player):
             points_of_move = self._calculate_points_of_rest(rest_cards_on_table)
 
             # IF ESCOBA
-            if rest_cards_on_table.__len__() == 0:
+            if len(rest_cards_on_table) == 0:
                 points_of_move += 20
 
             for card in move:

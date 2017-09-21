@@ -99,7 +99,7 @@ class Application(object):
         # Table Cards
         index = 0
         for card in self.game.table:
-            if self.game.table.__len__() <= 5:
+            if len(self.game.table) <= 5:
                 posx = 250 + (index * 100)
                 posy = (HEIGHT/2) - 75
             else:
