@@ -1,14 +1,14 @@
 # coding=utf-8
 import pygame
 
-from cpu_player import CpuPlayer
-from sprites.sprites import draw_text
+from entities.cpu_player import CpuPlayer
+from pygame_entities.sprites import draw_text
 
 
-class CpuPygamePlayer(CpuPlayer):
+class PygameCpuPlayer(CpuPlayer):
 
     def __init__(self, name, game, app_pygame):
-        super(CpuPygamePlayer, self).__init__(name, game)
+        super(PygameCpuPlayer, self).__init__(name, game)
         self.app_pygame = app_pygame
         self.time_between_moves = 1000
 

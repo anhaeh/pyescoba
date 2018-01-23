@@ -1,15 +1,15 @@
 # coding=utf-8
-from player import Player
+import sys
 import pygame
 from pygame.locals import *
-import sys
-from sprites.sprites import draw_text
+from pygame_entities.sprites import draw_text
+from entities.player import Player
 
 
-class HumanPygamePlayer(Player):
+class PygameHumanPlayer(Player):
 
     def __init__(self, name, game, app_pygame):
-        super(HumanPygamePlayer, self).__init__(name, game)
+        super(PygameHumanPlayer, self).__init__(name, game)
         self.app_pygame = app_pygame
 
     def play(self):
@@ -21,8 +21,8 @@ class HumanPygamePlayer(Player):
         need_reload = False
         while True:
             clock = pygame.time.Clock()
-            time = clock.tick(30)
-            keys = pygame.key.get_pressed()
+            clock.tick(30)
+            pygame.key.get_pressed()
 
             if need_reload:
                 self.app_pygame.update_screen()

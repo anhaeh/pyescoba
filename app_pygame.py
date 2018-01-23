@@ -1,8 +1,8 @@
 import sys
 import pygame
 from pygame.locals import K_SPACE, QUIT
-from entities.game import Game
-from sprites.sprites import load_image, draw_text, CardSprite, EscobaSprite
+from pygame_entities.pygame_controller import PyGameController
+from pygame_entities.sprites import load_image, draw_text, CardSprite, EscobaSprite
 
 WIDTH = 1024
 HEIGHT = 720
@@ -173,10 +173,10 @@ class Application(object):
         start the game
         """
         pygame.display.set_caption("PYEscoba")
-        self.game = Game()
+        self.game = PyGameController()
         self.game.add_human_pygame_player("Player1", self)
         self.game.add_cpu_pygame_player("CPU1", self)
-        # self.game.add_cpu_pygame_player("CPU2", self)
+        # self.game.add_cpu_pygame_player("CPU2", self) # For test 2 IA's
 
         while not self.game.someone_win():
             self.game.round += 1
@@ -185,7 +185,7 @@ class Application(object):
             self.game.give_cards_to_table()
             while 1:
                 self.game.give_cards_to_players()
-                for x in range(0, 3):
+                for x in xrange(3):
                     for player in self.game.players:
                         self.update_screen()
                         player.play()

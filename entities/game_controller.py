@@ -5,7 +5,7 @@ from entities.cpu_player import CpuPlayer
 from entities.human_player import HumanPlayer
 
 
-class Game(object):
+class GameController(object):
 
     def __init__(self):
         self.deck = []
@@ -17,23 +17,13 @@ class Game(object):
 
     def add_human_player(self, name):
         player = HumanPlayer(name, self)
-        self.__add_player(player)
+        self._add_player(player)
 
     def add_cpu_player(self, name):
         player = CpuPlayer(name, self)
-        self.__add_player(player)
+        self._add_player(player)
 
-    def add_human_pygame_player(self, name, app_pygame):
-        from entities.human_pygame_player import HumanPygamePlayer
-        player = HumanPygamePlayer(name, self, app_pygame)
-        self.__add_player(player)
-
-    def add_cpu_pygame_player(self, name, app_pygame):
-        from entities.cpu_pygame_player import CpuPygamePlayer
-        player = CpuPygamePlayer(name, self, app_pygame)
-        self.__add_player(player)
-
-    def __add_player(self, player):
+    def _add_player(self, player):
         """
         Add a player to the game
         """

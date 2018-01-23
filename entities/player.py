@@ -1,4 +1,5 @@
 # coding=utf-8
+from entities.exceptions import ImplementationError
 
 
 class Player(object):
@@ -38,7 +39,7 @@ class Player(object):
         self.hand.append(card)
 
     def play(self):
-        raise Exception("not implemented function play for player")
+        raise ImplementationError('play', self.__class__)
 
     def make_a_move(self, player_card, table_cards):
         """
@@ -58,7 +59,7 @@ class Player(object):
             for index in table_cards:
                 self.cards.append(self.game.table.pop(int(index) - id_adjust))
                 id_adjust += 1
-            # if is broom
+            # if is escoba
             if not self.game.table:
                 print "ESCOBA!"
                 self.escobas.append(self.hand.pop(player_card))
