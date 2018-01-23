@@ -1,4 +1,8 @@
 # coding=utf-8
+"""
+Implementation for a human player using the pygame framework
+"""
+
 import sys
 import pygame
 from pygame.locals import *

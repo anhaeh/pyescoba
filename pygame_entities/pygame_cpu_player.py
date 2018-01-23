@@ -1,4 +1,8 @@
 # coding=utf-8
+"""
+Implementation for a IA player using the pygame framework
+"""
+
 import pygame
 
 from entities.cpu_player import CpuPlayer

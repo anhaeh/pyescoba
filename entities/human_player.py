@@ -1,4 +1,8 @@
 # coding=utf-8
+"""
+Implementation for a human player
+"""
+
 from player import Player
 
 

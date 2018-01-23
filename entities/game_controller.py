@@ -1,4 +1,8 @@
 # coding=utf-8
+"""
+This class manage all the game and its players
+"""
+
 from random import shuffle
 from entities.card import Card
 from entities.cpu_player import CpuPlayer
@@ -117,9 +121,9 @@ class GameController(object):
             for card in player.cards:
                 if card.number == 7:
                     count_seven += 1
-                    if card.card_type == "ORO":
+                    if card.card_type == Card.GOLD:
                         have_gold_seven = True
-                if card.card_type == "ORO":
+                if card.card_type == Card.GOLD:
                     count_gold += 1
             if have_gold_seven:
                 player.round_points += 1

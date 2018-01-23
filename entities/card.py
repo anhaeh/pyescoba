@@ -2,8 +2,13 @@
 
 
 class Card(object):
+    # constants
+    GOLD = "ORO"
+    SWORD = "ESPADA"
+    CUP = "COPA"
+    STICK = "BASTO"
 
-    CARD_TYPES = ["ORO", "BASTO", "ESPADA", "COPA"]
+    CARD_TYPES = [GOLD, SWORD, CUP, STICK]
 
     def __init__(self, number, card_type):
         self.number = number

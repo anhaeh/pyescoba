@@ -1,4 +1,8 @@
 # coding=utf-8
+"""
+Abstract Class for human or IA player
+"""
+
 from entities.exceptions import ImplementationError
 
 

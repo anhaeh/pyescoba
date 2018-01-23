@@ -1,26 +1,30 @@
 # coding=utf-8
+"""
+Implementation for a IA player. It use a list of values associated with each card for decision making
+"""
+
 from player import Player
+from entities.card import Card
 
 
 class CpuPlayer(Player):
 
     def __init__(self, name, game):
         super(CpuPlayer, self).__init__(name, game)
-        # List of values ​​associated with each card for decision making
         self.card_values = {
-            "1ORO": 1,
-            "2ORO": 1,
-            "3ORO": 1,
-            "4ORO": 1,
-            "5ORO": 1,
-            "6ORO": 1,
-            "8ORO": 1,
-            "9ORO": 1,
-            "10ORO": 1,
-            "7BASTO": 3,
-            "7COPA": 3,
-            "7ESPADA": 3,
-            "7ORO": 7
+            "1%s" % Card.GOLD: 1,
+            "2%s" % Card.GOLD: 1,
+            "3%s" % Card.GOLD: 1,
+            "4%s" % Card.GOLD: 1,
+            "5%s" % Card.GOLD: 1,
+            "6%s" % Card.GOLD: 1,
+            "8%s" % Card.GOLD: 1,
+            "9%s" % Card.GOLD: 1,
+            "10%s" % Card.GOLD: 1,
+            "7%s" % Card.STICK: 3,
+            "7%s" % Card.CUP: 3,
+            "7%s" % Card.SWORD: 3,
+            "7%s" % Card.GOLD: 7
         }
 
     def play(self):
