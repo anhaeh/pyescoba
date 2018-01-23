@@ -20,10 +20,16 @@ class GameController(object):
         self.winner = None
 
     def add_human_player(self, name):
+        """
+        Add a Human player to the game
+        """
         player = HumanPlayer(name, self)
         self._add_player(player)
 
     def add_cpu_player(self, name):
+        """
+        Add a IA player to the game
+        """
         player = CpuPlayer(name, self)
         self._add_player(player)
 
@@ -75,7 +81,7 @@ class GameController(object):
         self.give_cards_to_table()
         while 1:
             self.give_cards_to_players()
-            for x in range(0, 3):
+            for x in range(3):
                 for player in self.players:
                     print "TABLE"
                     for card in self.table:
@@ -97,14 +103,14 @@ class GameController(object):
         Deal 3 cards to each player
         """
         for player in self.players:
-            for x in range(0, 3):
+            for x in range(3):
                 player.add_card_to_hand(self.deck.pop(0))
 
     def give_cards_to_table(self):
         """
         Deal 4 cards to the table at the beginning of the game
         """
-        for x in range(0, 4):
+        for x in range(4):
             self.table.append(self.deck.pop(0))
 
     def update_points(self):

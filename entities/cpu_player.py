@@ -47,7 +47,7 @@ class CpuPlayer(Player):
         for reverse in [True, False]:
             table_cards = sorted(self.game.table, key=lambda x: x.number, reverse=reverse)
             for hand_card in self.hand:
-                for x in range(0, len(table_cards)):
+                for x in range(len(table_cards)):
                     total = hand_card.number
                     actual_cards = [hand_card]
                     for table_card in table_cards:
