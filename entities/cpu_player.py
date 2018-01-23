@@ -74,10 +74,6 @@ class CpuPlayer(Player):
             rest_cards_on_table = filter(lambda x: x not in move, self.game.table)
             points_of_move = self._calculate_points_of_rest(rest_cards_on_table)
 
-            # IF ESCOBA
-            if len(rest_cards_on_table) == 0:
-                points_of_move += 20
-
             for card in move:
                 key = "%d%s" % (card.number, card.card_type)
                 points_of_move += 1
@@ -113,7 +109,10 @@ class CpuPlayer(Player):
         Calculates the value of the play by evaluating the rest to be left on the table
         """
         rest_points = sum([x.number for x in rest_cards_on_table])
-        if rest_points < 5:
+
+        if rest_points == 0:  # is escoba
+            points_of_move = 20
+        elif rest_points < 5:
             points_of_move = 2
         elif rest_points > 14:
             points_of_move = 1
