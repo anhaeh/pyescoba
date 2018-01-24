@@ -173,10 +173,10 @@ class Application(object):
         start the game
         """
         pygame.display.set_caption("PYEscoba")
-        self.game = PyGameController()
-        self.game.add_human_pygame_player("Player1", self)
-        self.game.add_cpu_pygame_player("CPU1", self)
-        # self.game.add_cpu_pygame_player("CPU2", self) # For test 2 IA's
+        self.game = PyGameController(self)
+        self.game.add_human_player("Player1")
+        self.game.add_cpu_player("CPU1")
+        # self.game.add_cpu_player("CPU2", self) # For test 2 IA's
 
         while not self.game.someone_win():
             self.game.round += 1

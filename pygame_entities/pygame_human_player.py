@@ -12,9 +12,9 @@ from entities.player import Player
 
 class PygameHumanPlayer(Player):
 
-    def __init__(self, name, game, app_pygame):
+    def __init__(self, name, game):
         super(PygameHumanPlayer, self).__init__(name, game)
-        self.app_pygame = app_pygame
+        self.app_pygame = game.app_pygame
 
     def play(self):
         """
@@ -38,7 +38,8 @@ class PygameHumanPlayer(Player):
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:  # Left Click
                     for sprite in self.app_pygame.cards_sprites:
                         if sprite.rect.collidepoint(event.pos):
-                            if sprite == selected_hand_card or sprite.index in selected_table_cards \
+                            if sprite == selected_hand_card or \
+                                    (selected_hand_card is not None and sprite.index in selected_table_cards) \
                                     or (selected_hand_card is not None and sprite in self.app_pygame.hand_sprites):
                                 need_reload = True
                                 selected_table_cards = []

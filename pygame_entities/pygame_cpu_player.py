@@ -11,9 +11,9 @@ from pygame_entities.sprites import draw_text
 
 class PygameCpuPlayer(CpuPlayer):
 
-    def __init__(self, name, game, app_pygame):
+    def __init__(self, name, game):
         super(PygameCpuPlayer, self).__init__(name, game)
-        self.app_pygame = app_pygame
+        self.app_pygame = game.app_pygame
         self.time_between_moves = 1000
 
     def play(self):

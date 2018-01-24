@@ -10,13 +10,14 @@ from pygame_entities.pygame_cpu_player import PygameCpuPlayer
 
 class PyGameController(GameController):
 
-    def __init__(self):
+    def __init__(self, app_pygame):
         super(PyGameController, self).__init__()
+        self.app_pygame = app_pygame
 
-    def add_human_pygame_player(self, name, app_pygame):
-        player = PygameHumanPlayer(name, self, app_pygame)
+    def add_human_player(self, name):
+        player = PygameHumanPlayer(name, self)
         self._add_player(player)
 
-    def add_cpu_pygame_player(self, name, app_pygame):
-        player = PygameCpuPlayer(name, self, app_pygame)
+    def add_cpu_player(self, name):
+        player = PygameCpuPlayer(name, self)
         self._add_player(player)
