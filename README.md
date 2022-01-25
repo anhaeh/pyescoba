@@ -1,6 +1,4 @@
-========
-PyEscoba
-========
+# PyEscoba
 
 Clásico juego de naipes "Escoba de 15" desarrollado en Python. El mismo es totalmente funcional
 y puede jugarse desde consola o desde su interface gráfica implementada en PyGameEngine .
@@ -15,8 +13,7 @@ a todas las cartas disponibles.
 Si quieres simular una jugada entre 2 IA's, solo tienes que agregar 2 CpuPlayer
 (en app.py o app_pygame.py) y ver como juegan entre ellas!
 
-Ejecución
----------
+## Ejecución
 1. Consola:
 
     $python app.py
