@@ -8,6 +8,7 @@ y puede jugarse desde consola o desde su interface gráfica implementada en PyGa
 Se implementa IA de selección de jugada óptima. La misma calcula la mejor jugada en base
 a todas las cartas disponibles.
 
+
 ![Screenshot](splash.png)
 
 
