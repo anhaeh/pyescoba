@@ -2,9 +2,10 @@
 """
 Implementation for a IA player. It use a list of values associated with each card for decision making
 """
-
+from copy import copy
+from itertools import combinations
 from player import Player
-from entities.card import Card
+from entities.card import CUP, GOLD, SWORD, STICK
 
 
 class CpuPlayer(Player):
@@ -12,19 +13,19 @@ class CpuPlayer(Player):
     def __init__(self, name, game):
         super(CpuPlayer, self).__init__(name, game)
         self.card_values = {
-            "1%s" % Card.GOLD: 1,
-            "2%s" % Card.GOLD: 1,
-            "3%s" % Card.GOLD: 1,
-            "4%s" % Card.GOLD: 1,
-            "5%s" % Card.GOLD: 1,
-            "6%s" % Card.GOLD: 1,
-            "8%s" % Card.GOLD: 1,
-            "9%s" % Card.GOLD: 1,
-            "10%s" % Card.GOLD: 1,
-            "7%s" % Card.STICK: 3,
-            "7%s" % Card.CUP: 3,
-            "7%s" % Card.SWORD: 3,
-            "7%s" % Card.GOLD: 7
+            "1%s" % GOLD: 1,
+            "2%s" % GOLD: 1,
+            "3%s" % GOLD: 1,
+            "4%s" % GOLD: 1,
+            "5%s" % GOLD: 1,
+            "6%s" % GOLD: 1,
+            "8%s" % GOLD: 1,
+            "9%s" % GOLD: 1,
+            "10%s" % GOLD: 1,
+            "7%s" % STICK: 3,
+            "7%s" % CUP: 3,
+            "7%s" % SWORD: 3,
+            "7%s" % GOLD: 7
         }
 
     def play(self):
@@ -44,22 +45,20 @@ class CpuPlayer(Player):
         Evaluate all possible games to run
         """
         moves = []
-        for reverse in [True, False]:
-            table_cards = sorted(self.game.table, key=lambda x: x.number, reverse=reverse)
-            for hand_card in self.hand:
-                for x in range(len(table_cards)):
-                    total = hand_card.number
-                    actual_cards = [hand_card]
-                    for table_card in table_cards:
-                        if total + table_card.number <= 15:
-                            total += table_card.number
-                            actual_cards.append(table_card)
-                            if total == 15:
-                                actual_cards.sort(key=lambda x: x.number)
-                                if actual_cards not in moves:
-                                    moves.append(actual_cards)
-                                    break
-                    table_cards.append(table_cards.pop(0))
+        table_cards = copy(self.game.table)
+        combinations_in_table = []
+        for comb_length in range(len(table_cards)):
+            combinations_in_table += list(combinations(table_cards, comb_length + 1))
+
+        for hand_card in self.hand:
+            # make combinations by card
+            combinations_by_card = copy(combinations_in_table)
+            for combination in iter(combinations_by_card):
+                possible_move = list(combination)
+                possible_move.append(hand_card)
+                sum_cards = sum([x.number for x in possible_move])
+                if sum_cards == 15:
+                    moves.append(possible_move)
         return moves
 
     def _get_best_move(self, moves):
@@ -87,21 +86,12 @@ class CpuPlayer(Player):
         print "CPU use:", best_move_hand_card.__str__()
         print "And Get:", best_move_table_cards.__str__()
 
-        # get indices of cards
-        index = 0
-        for card in self.hand:
-            if card in best_move_hand_card:
-                hand_card = index
-                break
-            index += 1
-        index = 0
-        table_cards = []
-        for card in self.game.table:
-            if card in best_move_table_cards:
-                table_cards.append(index)
-            index += 1
-
-        return hand_card, table_cards
+        # get indexes of cards
+        hand_card_index = self.hand.index(best_move_hand_card[0])
+        table_cards_indexes = []
+        for card in iter(best_move_table_cards):
+            table_cards_indexes.append(self.game.table.index(card))
+        return hand_card_index, table_cards_indexes
 
     @staticmethod
     def _calculate_points_of_rest(rest_cards_on_table):

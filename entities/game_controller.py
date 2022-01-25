@@ -4,7 +4,7 @@ This class manage all the game and its players
 """
 
 from random import shuffle
-from entities.card import Card
+from entities.card import GOLD, Card
 from entities.cpu_player import CpuPlayer
 from entities.human_player import HumanPlayer
 
@@ -50,8 +50,8 @@ class GameController(object):
         Generates the deck of 40 cards
         """
         for card_type in Card.CARD_TYPES:
-            for i in range(1, 11):
-                card = Card(i, card_type)
+            for i in range(10):
+                card = Card(i + 1, card_type)
                 self.deck.append(card)
 
     def someone_win(self):
@@ -127,9 +127,9 @@ class GameController(object):
             for card in player.cards:
                 if card.number == 7:
                     count_seven += 1
-                    if card.card_type == Card.GOLD:
+                    if card.card_type == GOLD:
                         have_gold_seven = True
-                if card.card_type == Card.GOLD:
+                if card.card_type == GOLD:
                     count_gold += 1
             if have_gold_seven:
                 player.round_points += 1

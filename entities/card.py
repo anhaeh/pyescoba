@@ -1,12 +1,13 @@
 # coding=utf-8
 
+# constants
+GOLD = "ORO"
+SWORD = "ESPADA"
+CUP = "COPA"
+STICK = "BASTO"
+
 
 class Card(object):
-    # constants
-    GOLD = "ORO"
-    SWORD = "ESPADA"
-    CUP = "COPA"
-    STICK = "BASTO"
 
     CARD_TYPES = [GOLD, SWORD, CUP, STICK]
 
