@@ -52,8 +52,7 @@ class CpuPlayer(Player):
 
         for hand_card in self.hand:
             # make combinations by card
-            combinations_by_card = copy(combinations_in_table)
-            for combination in iter(combinations_by_card):
+            for combination in iter(combinations_in_table):
                 possible_move = list(combination)
                 possible_move.append(hand_card)
                 sum_cards = sum([x.number for x in possible_move])
