@@ -23,3 +23,8 @@ Si quieres simular una jugada entre 2 IA's, solo tienes que agregar 2 CpuPlayer
     $pip install -r requirements.txt
 
     $python app_pygame.py
+
+## Test
+
+   $behave tests/bdd
+
