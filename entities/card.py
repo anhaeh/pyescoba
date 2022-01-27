@@ -12,7 +12,7 @@ class Card(object):
     CARD_TYPES = [GOLD, SWORD, CUP, STICK]
 
     def __init__(self, number, card_type):
-        self.number = number
+        self.number = int(number)
         self.card_type = card_type
 
     def __repr__(self):

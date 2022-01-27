@@ -101,10 +101,8 @@ class CpuPlayer(Player):
 
         if rest_points == 0:  # is escoba
             points_of_move = 20
-        elif rest_points < 5:
+        elif rest_points > 14 or rest_points < 5:
             points_of_move = 2
-        elif rest_points > 14:
-            points_of_move = 1
         else:
             points_of_move = 0
         return points_of_move
