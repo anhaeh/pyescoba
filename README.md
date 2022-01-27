@@ -15,16 +15,19 @@ Si quieres simular una jugada entre 2 IA's, solo tienes que agregar 2 CpuPlayer
 
 ## Ejecución
 1. Consola:
-
-    $python app.py
+```
+  python app.py
+```
 
 2. PYGAME Engine. Instalar las dependencias en requirements.txt y ejecutar app_pygame.py:
-
-    $pip install -r requirements.txt
-
-    $python app_pygame.py
+```
+  pip install -r requirements.txt
+  python app_pygame.py
+```
 
 ## Test
-
-   $behave tests/bdd
+```
+  behave tests/bdd
+```
+   
 
