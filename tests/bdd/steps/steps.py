@@ -15,7 +15,7 @@ def step_add_card(context, card_number, card_type):
     context.player.add_card_to_hand(card)
 
 
-@given('"{card_number}" of "{card_type}" is in table')
+@given('the table has "{card_number}" of "{card_type}"')
 def step_add_card_to_table(context, card_number, card_type):
     card = Card(card_number, card_type)
     context.game.table.append(card)

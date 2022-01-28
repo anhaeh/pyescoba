@@ -5,7 +5,7 @@ Feature: test a cpu when it must throw cards
       And has "1" of "ORO" in his hand
       And has "2" of "ESPADA" in his hand
       And has "6" of "COPA" in his hand
-      And "1" of "BASTO" is in table
+      And the table has "1" of "BASTO"
       When the player "IA" plays
       Then the table has "2" of "ESPADA"
 
@@ -28,7 +28,7 @@ Feature: test a cpu when it must throw cards
     Given a IA player is registered in the game
       And has "1" of "COPA" in his hand
       And has "3" of "ORO" in his hand
-      And "7" of "BASTO" is in table
-      And "6" of "COPA" is in table
+      And the table has "7" of "BASTO"
+      And the table has "6" of "COPA"
       When the player "IA" plays
       Then the table has "3" of "ORO"
