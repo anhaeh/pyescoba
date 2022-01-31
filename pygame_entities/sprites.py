@@ -20,6 +20,7 @@ class CardSprite(pygame.sprite.Sprite):
             image = load_image("images/%s/%d.jpg" % (self.card.card_type, self.image_number))
         else:
             image = load_image("images/back.jpg")
+        image = image.subsurface((8, 8, 86, 124))
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = posx
@@ -31,8 +32,9 @@ class EscobaSprite(CardSprite):
         super(EscobaSprite, self).__init__(card, posx, posy, index, True)
 
     def set_image(self, posx, posy, show=True):
-        self.image = load_image("images/%s/%d.jpg" % (self.card.card_type, self.image_number))
-        self.image = pygame.transform.rotate(self.image, 90)
+        image = load_image("images/%s/%d.jpg" % (self.card.card_type, self.image_number))
+        image = image.subsurface((8, 8, 86, 124))
+        self.image = pygame.transform.rotate(image, 90)
         self.rect = self.image.get_rect()
         self.rect.x = posx - 50
         self.rect.y = posy + 20
